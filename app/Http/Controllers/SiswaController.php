@@ -9,7 +9,7 @@ class SiswaController extends Controller
 {
     //read
     public function index() {
-        $data = \App\Siswa::all();
+        $data = Siswa::all();
 
         if(count($data) > 0) {
             $res['success'] = true;
@@ -130,6 +130,111 @@ class SiswaController extends Controller
                 $res['message'] = "Gagal menghapus!";
                 return response($res);
             }
+        }
+    }
+
+    //search
+    public function search(request $request) {
+        $keyword = $request->nama;
+
+        $siswa = Siswa::where('nama', 'like', "%{$keyword}%")->get();
+
+        if($siswa->isEmpty()) {
+            $res['success'] = false;
+            $res['message'] = "Data siswa tidak ditemukan!";
+            $res['data'] = $siswa;
+            return response($res);
+        } else {
+            $res['success'] = true;
+            $res['message'] = "Data ditemukan!";
+            $res['data'] = $siswa;
+            return response($res);
+        }
+    }
+
+    //sort
+    public function sort(request $request) {
+        $siswa = Siswa::all();
+        $sortby = $request->sortby;
+        $order = $request->order;
+
+        if($sortby === NULL) {
+            $res['success'] = false;
+            $res['message'] = "Sort By harus di isi!";
+            return response($res);
+        }
+
+        if($order === NULL) {
+            $res['success'] = false;
+            $res['message'] = "Order harus di isi!";
+            return response($res);
+        }
+
+        if($sortby == "nama") {
+            $siswa = Siswa::orderBy('nama', $order)->get();
+        }
+
+        if($sortby == "date") {
+            $siswa = Siswa::orderBy('created_at', $order)->get();
+        }
+
+        if($sortby == "modified") {
+            $siswa = Siswa::orderBy('updated_at', $order)->get();
+        }
+
+        if($siswa->isEmpty()) {
+            $res['success'] = false;
+            $res['message'] = "Data siswa tidak ditemukan!";
+            $res['data'] = $siswa;
+            return response($res);
+        } else {
+            $res['success'] = true;
+            $res['message'] = "Data ditemukan!";
+            $res['data'] = $siswa;
+            return response($res);
+        }
+    }
+
+    //filter
+    public function filter(request $request) {
+        $siswa = Siswa::all();
+        $flag = $request->flag;
+        $min = $request->min;
+        $max = $request->max;
+
+        if($flag === NULL) {
+            $res['success'] = false;
+            $res['message'] = "Flag harus di isi!";
+            return response($res);
+        }
+
+        if($min === NULL) {
+            $res['success'] = false;
+            $res['message'] = "Range min harus di isi!";
+            return response($res);
+        }
+
+        if($max === NULL) {
+            $res['success'] = false;
+            $res['message'] = "Range max harus di isi!";
+            return response($res);
+        }
+
+        if($flag == "umur") {
+            $siswa = Siswa::where('umur', '>=', $min)
+                          ->Where('umur', '<=', $max)->get();
+        }
+
+        if($siswa->isEmpty()) {
+            $res['success'] = false;
+            $res['message'] = "Data siswa tidak ditemukan!";
+            $res['data'] = $siswa;
+            return response($res);
+        } else {
+            $res['success'] = true;
+            $res['message'] = "Data ditemukan!";
+            $res['data'] = $siswa;
+            return response($res);
         }
     }
 }
