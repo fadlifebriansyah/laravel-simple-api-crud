@@ -44,6 +44,14 @@ class SiswaController extends Controller
             $siswa->alamat = $request->alamat;
         }
 
+        if($request->umur === NULL) {
+            $res['success'] = false;
+            $res['message'] = "Umur harus di isi!";
+            return response($res);
+        } else {
+            $siswa->umur = $request->umur;
+        }
+
         if($siswa->save()) {
             $res['success'] = true;
             $res['message'] = "Sukses menyimpan!";
@@ -59,6 +67,7 @@ class SiswaController extends Controller
     public function update(request $request, $id) {
         $nama = $request->nama;
         $alamat = $request->alamat;
+        $umur = $request->umur;
 
         $siswa = Siswa::find($id);
         
@@ -81,6 +90,14 @@ class SiswaController extends Controller
                 return response($res);
             } else {
                 $siswa->alamat = $alamat;
+            }
+
+            if($umur === NULL) {
+                $res['success'] = false;
+                $res['message'] = "Umur harus di isi!";
+                return response($res);
+            } else {
+                $siswa->umur = $umur;
             }
 
             if($siswa->save()) {
