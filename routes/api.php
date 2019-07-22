@@ -13,14 +13,19 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+/*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/
 
-Route::get('siswa', 'SiswaController@index');
-Route::post('siswa', 'SiswaController@create');
-Route::put('siswa/{id}', 'SiswaController@update');
-Route::delete('siswa/{id}', 'SiswaController@delete');
-Route::post('siswa/search', 'SiswaController@search');
-Route::post('siswa/sort', 'SiswaController@sort');
-Route::post('siswa/filter', 'SiswaController@filter');
+Route::post('login', 'UserController@login');
+Route::post('register', 'UserController@register');
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::post('details', 'UserController@details');
+    Route::get('siswa', 'SiswaController@index');
+    Route::post('siswa', 'SiswaController@create');
+    Route::put('siswa/{id}', 'SiswaController@update');
+    Route::delete('siswa/{id}', 'SiswaController@delete');
+    Route::post('siswa/search', 'SiswaController@search');
+    Route::post('siswa/sort', 'SiswaController@sort');
+    Route::post('siswa/filter', 'SiswaController@filter');
+});
