@@ -9,7 +9,8 @@ class SiswaController extends Controller
 {
     //read
     public function index() {
-        $data = Siswa::all();
+        //$data = Siswa::all();
+        $data = Siswa::paginate(5);
 
         if(count($data) > 0) {
             $res['success'] = true;
