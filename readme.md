@@ -1,3 +1,6 @@
+A simple CRUD Rest API for interaction between web service and apps using Laravel Passport OAuth.
+
+
 Notes for steps :
 
 -clone from repository
