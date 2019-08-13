@@ -9,5 +9,8 @@ Notes for steps :
 -php artisan cache:clear 
 -php artisan config:clear
 -create database
--create table
+-composer require laravel/passport
+-php artisan make:middleware CheckApiToken
+-php artisan migrate
+-php artisan passport:install
 -php artisan serve
