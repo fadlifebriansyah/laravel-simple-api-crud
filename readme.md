@@ -14,3 +14,10 @@ Notes for steps :
 -php artisan migrate
 -php artisan passport:install
 -php artisan serve
+
+
+Notes for post :
+
+"Authorization" : "Bearer {token}"
+
+"Content-Type" : "application/json"
